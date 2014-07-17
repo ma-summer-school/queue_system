@@ -8,7 +8,7 @@ $_SESSION["lastticket"]=isset($_SESSION["lastticket"]) ? $_SESSION["lastticket"]
 
 ?>
 
-<div id="lastserved">
+		<div id="lastserved">
 		<?php 
 				echo '<h2>Last Served:</h2><h1>'.$_SESSION["lastserved"].'</br></h1>';
 
