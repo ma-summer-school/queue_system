@@ -1,3 +1,19 @@
+ <head>
+<script src="jquery-2.1.1.min.js"></script>
+<script type="text/javascript">//script refreshing every 5secs
+var auto_refresh = setInterval( function () { 
+$('#load').load('index.php').fadeIn("slow");
+ //alert("Refresh"); 
+  }, 5000); // refresh every 10000 milliseconds 
+</script>
+
+</head
+
+
+
+
+
+
 <html>
 <?php
 session_start();
