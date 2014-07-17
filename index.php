@@ -1,3 +1,9 @@
+<?php
+session_start();
+$_SESSION["lastserved"]=isset($_SESSION["lastserved"]) ? $_SESSION["lastserved"] : 0 ;
+$_SESSION["lastticket"]=isset($_SESSION["lastticket"]) ? $_SESSION["lastticket"] : 0 ; 
+?>
+
 <html>
 <head>
   <script src="jquery.js"></script>
@@ -8,16 +14,11 @@
   <script type="text/javascript">//script refreshing every 5secs
     var auto_refresh = setInterval( function () { 
     $('#refresh').load('index.php').fadeIn("slow");
-    }, 5000); // refresh every 10000 milliseconds 
+    }, 500); // refresh every 10000 milliseconds 
   </script>
 </head
 <body>
-
 <?php
-session_start();
-$_SESSION["lastserved"]=isset($_SESSION["lastserved"]) ? $_SESSION["lastserved"] : 0 ;
-$_SESSION["lastticket"]=isset($_SESSION["lastticket"]) ? $_SESSION["lastticket"] : 0 ; 
-
 if(isset($_POST['submit']))
 {
    ++$_SESSION['lastticket'];
