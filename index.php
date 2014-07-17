@@ -10,6 +10,18 @@ if(isset($_POST['submit']))
 
    ++$_SESSION['lastticket'];
 }
+
+if(isset($_POST['amka']))
+{
+
+$_POST['amka']=preg_replace("/[^0-9]/", "", $_POST['amka']);
+
+if( strlen($_POST['amka'])!=11)
+{
+	$_POST['amka']="";
+} 
+}
+
 ?>
 
 <div id="content" >
@@ -46,6 +58,9 @@ if(isset($_POST['submit']))
 		<input type="text" size="2" maxlength="2" name="MBirth"  >/
 		<input type="text" size="2" maxlength="2" name="YBirth"  >
  		</div>
+ 	ΑΜΚΑ:</br>
+ 	<input type="text" size="11" maxlength="11" name="amka" >
+ 	</br>
  	<input type="submit" value="submit" name="submit">
 	</form>
 	</div>
