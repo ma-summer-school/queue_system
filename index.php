@@ -6,6 +6,7 @@ $_SESSION["lastticket"]=isset($_SESSION["lastticket"]) ? $_SESSION["lastticket"]
 
 <html>
 <head>
+  <link rel="stylesheet" type="text/css" href="style.css">
   <script src="jquery.js"></script>
   <script>
     if($(window).width() <= 400)
@@ -54,25 +55,20 @@ if(isset($_POST['amka']))
 	<div id="form" >
     <form id="get_a_ticket" action="" method="POST">
       <div id="Greek_Form" style="">
-        Επίθετο:</br>
-        <input type="text" name="Surname_Gr" >
+        Επίθετο: <input type="text" name="Surname_Gr" >
         </br>
-        Όνομα:</br>
-        <input type="text" name="Name_Gr" >
+        Όνομα: <input type="text" name="Name_Gr" >
         </br>
-        Όνομα Πατέρα:</br>
-        <input type="text" name="FName_Gr" >
+        Όνομα Πατέρα: <input type="text" name="FName_Gr" >
         </br>
-        Όνομα Μητέρας:</br>
-        <input type="text" name="MName_Gr" >
+        Όνομα Μητέρας: <input type="text" name="MName_Gr" >
         </br>
-        Ημ/νία Γέννησης:(Ημ/Μη/Χρ)</br>
-        <input type="text" size="2" maxlength="2" name="DBirth"  >/
-        <input type="text" size="2" maxlength="2" name="MBirth"  >/
+        Ημ/νία Γέννησης:(Ημ/Μη/Χρ)
+        <input type="text" size="2" maxlength="2" name="DBirth"  > /
+        <input type="text" size="2" maxlength="2" name="MBirth"  > /
         <input type="text" size="2" maxlength="2" name="YBirth"  >
         </div>
-        ΑΜΚΑ:</br>
-        <input type="text" size="11" maxlength="11" name="amka" >
+        ΑΜΚΑ: <input type="text" size="11" maxlength="11" name="amka" >
         </br>
         <input type="submit" value="submit" name="submit">
     </form>
