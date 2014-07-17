@@ -5,7 +5,7 @@ $_SESSION["lastserved"]=isset($_SESSION["lastserved"]) ? $_SESSION["lastserved"]
 $_SESSION["lastticket"]=isset($_SESSION["lastticket"]) ? $_SESSION["lastticket"] : 0 ; 
 
 
-if(isset($_POST['submit'])
+if(isset($_POST['submit']))
 {
 
    ++$_SESSION['lastticket'];
@@ -45,9 +45,8 @@ if(isset($_POST['submit'])
 		<input type="text" size="2" maxlength="2" name="DBirth"  >/
 		<input type="text" size="2" maxlength="2" name="MBirth"  >/
 		<input type="text" size="2" maxlength="2" name="YBirth"  >
-		<input type="text" value="submit" name="submit">
  		</div>
- 	<input type="text" value="submit" name="submit">
+ 	<input type="submit" value="submit" name="submit">
 	</form>
 	</div>
 </div>
