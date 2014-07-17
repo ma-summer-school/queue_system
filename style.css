@@ -3,7 +3,10 @@ font-family: Arial Serif Helvetica;
 }
 
 input {
-padding: 10px;
+margin: 10px;
+border: none;
 }
 
-
+body {
+background-color: #b0d1d6
+}

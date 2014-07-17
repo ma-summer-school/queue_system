@@ -1,3 +1,12 @@
 html {
 font-family: Arial Serif Helvetica;
 }
+
+input {
+margin: 10px;
+border: none;
+}
+
+body {
+background-color: #FAF499
+}
