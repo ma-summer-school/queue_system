@@ -1,10 +1,14 @@
 <html>
 <head>
   <script src="jquery.js"></script>
+  <script>
+    if($(window).width() <= 400)
+      document.location = "m.index.php";
+  </script>
   <script type="text/javascript">//script refreshing every 5secs
     var auto_refresh = setInterval( function () { 
     $('#refresh').load('index.php').fadeIn("slow");
-    }, 500); // refresh every 10000 milliseconds 
+    }, 5000); // refresh every 10000 milliseconds 
   </script>
 </head
 <body>
