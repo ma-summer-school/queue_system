@@ -6,6 +6,7 @@ $_SESSION["lastticket"]=isset($_SESSION["lastticket"]) ? $_SESSION["lastticket"]
 
 <html>
 <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <link rel="stylesheet" type="text/css" href="style.css">
   <script src="jquery.js"></script>
   <script>
@@ -63,7 +64,7 @@ if(isset($_POST['amka']))
         </br>
         Όνομα Μητέρας: <input type="text" name="MName_Gr" >
         </br>
-        Ημ/νία Γέννησης:(Ημ/Μη/Χρ)
+        Ημ/νία Γέννησης: (Ημ/Μη/Χρ)
         <input type="text" size="2" maxlength="2" name="DBirth"  > /
         <input type="text" size="2" maxlength="2" name="MBirth"  > /
         <input type="text" size="2" maxlength="2" name="YBirth"  >
