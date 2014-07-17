@@ -70,11 +70,12 @@ if(isset($_POST['amka']))
         <input type="text" size="2" maxlength="2" name="MBirth"  >/
         <input type="text" size="2" maxlength="2" name="YBirth"  >
         </div>
-      ΑΜΚΑ:</br>
+        ΑΜΚΑ:</br>
         <input type="text" size="11" maxlength="11" name="amka" >
         </br>
         <input type="submit" value="submit" name="submit">
     </form>
 	</div>
 </div>
+</body>
 </html>
