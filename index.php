@@ -13,7 +13,7 @@ $_SESSION["lastticket"]=isset($_SESSION["lastticket"]) ? $_SESSION["lastticket"]
   </script>
   <script type="text/javascript">//script refreshing every 5secs
     var auto_refresh = setInterval( function () { 
-    $('#refresh').load('index.php').fadeIn("slow");
+    $('#refresh').load('refresh.php').fadeIn("slow");
     }, 500); // refresh every 10000 milliseconds 
   </script>
 </head
