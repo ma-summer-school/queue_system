@@ -35,7 +35,7 @@ if(isset($_POST['submit']))
 	{
   	$_POST['amka']=preg_replace("/[^0-9]/", "", $_POST['amka']);
   	   
-  		if( strlen($_POST['amka'])!=11  || !DateTime::createFromFormat('dd/mm/YY', substr($_POST['amka'],0,2).'/'.substr($_POST['amka'],2,2).'/'. substr($_POST['amka'],4,2))  )
+  		if( strlen($_POST['amka'])!=11 )
   		{	
     	echo 'Λάθος ΑΜΚΑ, βεβαιωθείτε οτι ο ΑΜΚΑ που έχετε εισάγει είναι σωστός και προσπαθήστε ξανα';
   		}
