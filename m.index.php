@@ -1,7 +1,20 @@
 <?php
+include 'PhpSerial.php';
+
 session_start();
-$_SESSION["lastserved"]=isset($_SESSION["lastserved"]) ? $_SESSION["lastserved"] : 0 ;
-$_SESSION["lastticket"]=isset($_SESSION["lastticket"]) ? $_SESSION["lastticket"] : 0 ;
+$serial = new PhpSerial;
+$_SESSION["serial"]=$serial;
+$serial->deviceSet("/dev/ttyUSB0");
+//$serial->deviceSet("/tmp/ttyeqemu");
+$serial->confBaudRate(38400);
+$serial->confParity("none");
+$serial->confCharacterLength(8);
+$serial->confStopBits(1);
+$serial->confFlowControl("none");
+$serial->deviceOpen('r+');
+
+//$_SESSION["lastserved"]=isset($_SESSION["lastserved"]) ? $_SESSION["lastserved"] : 0 ;
+//$_SESSION["lastticket"]=isset($_SESSION["lastticket"]) ? $_SESSION["lastticket"] : 0 ;
 /*if(isset($_SESSION['allowed']))
 print_r($_SESSION['allowed']);
 */
@@ -44,15 +57,17 @@ if(isset($_POST['submit']))
   		    
   			if(!isset($_SESSION['allowed']))
   			{
-  			++$_SESSION['lastticket'];
-		  	$_SESSION['allowed'][$_POST['amka']]=$_SESSION['lastticket'];
+//  			++$_SESSION['lastticket'];
+			$_SESSION['serial']->sendMessage("q\n");
+		  	$_SESSION['allowed'][$_POST['amka']]=$_SESSION['serial'];
   			 
   			 echo 'Ο ΑΜΚΑ σας έχει  καταχωρηθεί στο μητρώο. Παρακαλώ περάστε απο το ταμείο';
   			}
  		 	else if(!isset($_SESSION['allowed'][$_POST['amka']]))
   			{
-  			++$_SESSION['lastticket'];
-  			$_SESSION['allowed'][$_POST['amka']]=$_SESSION['lastticket'];
+//  			++$_SESSION['lastticket'];
+			$_SESSION['serial']->sendMessage("q\n");
+  			$_SESSION['allowed'][$_POST['amka']]=$_SESSION['serial'];
   			 
   			echo 'Ο ΑΜΚΑ σας έχει  καταχωρηθεί στο μητρώο. Παρακαλώ περάστε απο το ταμείο';
 			}
@@ -70,14 +85,21 @@ if(isset($_POST['submit']))
 		<div id="lastserved">
 
 		<?php 
-    	echo '<h3>Αριθμός που εξυπηρετείται:</h2><h1>'.$_SESSION["lastserved"].'</br></h1>';
+		$serial->sendMessage("c\n");
+		preg_match('/\d+/', $serial->readPort(), $read);
+		
+//    	echo '<h3>Αριθμός που εξυπηρετείται:</h2><h1>'.$_SESSION["lastserved"].'</br></h1>';
+    	echo '<h3>Αριθμός που εξυπηρετείται:</h2><h1>'.$read[0].'</br></h1>';
 		?>
 
 		</div>
 		<div id="lastticket" >
 	
 		<?php 
-    	echo '<h3>Τελευταίος αριθμός στην ουρά:</h2><h1>'.$_SESSION["lastticket"].'</h1>';
+		$serial->sendMessage("t\n");
+		preg_match('/\d+/', $serial->readPort(), $read);
+//    	echo '<h3>Τελευταίος αριθμός στην ουρά:</h2><h1>'.$_SESSION["lastticket"].'</h1>';
+    	echo '<h3>Τελευταίος αριθμός στην ουρά:</h2><h1>'.$read[0].'</h1>';
 		?>
 
 		</div>
@@ -108,3 +130,4 @@ if(isset($_POST['submit']))
   <p>About Us: <a href="about.html">click here</a>.</p>
 </footer>
 </body>
+</html>
