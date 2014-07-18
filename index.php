@@ -104,5 +104,8 @@ if(isset($_POST['submit']))
     </form>
 	</div>
 </div>
+<footer>
+  <p>About Us: <a href="about.html">click here</a>.</p>
+</footer>
 </body>
 </html>
