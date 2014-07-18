@@ -10,12 +10,12 @@ print_r($_SESSION['allowed']);
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" type="text/css" href="mstyle.css">
   <script src="jquery.js"></script>
   <script>
   <!-- 
-    if($(window).width() <= 400)
-      document.location = "m.index.php";
+    if($(window).width() >= 400)
+      document.location = "index.php";
    -->   
   </script>
   <script type="text/javascript">//script refreshing every 5secs
