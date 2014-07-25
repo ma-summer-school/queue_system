@@ -42,28 +42,38 @@ if(isset($_POST['submit']))
   	   
   		if( strlen($_POST['amka']) != AMKA_LENGTH )
   		{	
-    	echo 'Λάθος ΑΜΚΑ, βεβαιωθείτε οτι ο ΑΜΚΑ που έχετε εισάγει είναι σωστός και προσπαθήστε ξανα';
+    	echo 'Μη εγκύρος ΑΜΚΑ, βεβαιωθείτε οτι ο ΑΜΚΑ που έχετε εισάγει είναι σωστός και προσπαθήστε ξανα';
   		}
   		else
   		{
-  		    
-  			if(!isset($_SESSION['allowed']))
-  			{
+		    	$day= substr($_POST['amka'], 0, 2);
+		    	$month=substr($_POST['amka'], 2, 2);
+		    	$year=substr($_POST['amka'], 4, 2);
+		    	
+ 			if(checkdate( $month,$day, $year))  
+			{
+  				if(!isset($_SESSION['allowed']))
+  				{
 	  			++$_SESSION['lastticket'];
 			  	$_SESSION['allowed'][$_POST['amka']]=$_SESSION['lastticket'];
 	  			 
   			 	echo 'Ο ΑΜΚΑ σας έχει  καταχωρηθεί στο μητρώο. Παρακαλώ περάστε απο το ταμείο';
-  			}
- 		 	else if(!isset($_SESSION['allowed'][$_POST['amka']]))
-  			{
+  				}
+ 		 		else if(!isset($_SESSION['allowed'][$_POST['amka']]))
+  				{
 	  			++$_SESSION['lastticket'];
 	  			$_SESSION['allowed'][$_POST['amka']]=$_SESSION['lastticket'];
 	  			 
 	  			echo 'Ο ΑΜΚΑ σας έχει  καταχωρηθεί στο μητρώο. Παρακαλώ περάστε απο το ταμείο';
+				}
+				else
+				{
+				echo 'Ο ΑΜΚΑ σας είναι ήδη καταχωρημένος στο μητρώο!';
+				}
 			}
 			else
 			{
-				echo 'Ο ΑΜΚΑ σας είναι ήδη καταχωρημένος στο μητρώο!';
+				echo 'Μη εγκύρος ΑΜΚΑ, βεβαιωθείτε οτι ο ΑΜΚΑ που έχετε εισάγει είναι σωστός και προσπαθήστε ξανα';
 			}
   		} 
 	}
