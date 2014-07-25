@@ -11,23 +11,28 @@ print_r($_SESSION['allowed']);
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <link rel="stylesheet" type="text/css" href="style.css">
-  <script src="jquery.js"></script>
-  <script>
-  <!-- 
-    if($(window).width() <= 400)
-      document.location = "m.index.php";
-   -->   
-  </script>
-  <script type="text/javascript">//script refreshing every 5secs
-    <!--
-    var auto_refresh = setInterval( function () { 
-    $('#refresh').load('refresh.php').fadeIn("slow");
-    }, 500); // refresh every 10000 milliseconds
-    --> 
-  </script>
+  <?php
+	include 'defines.php';
+	echo '
+  	<script src="jquery.js"></script>
+  	<script>
+	  	<!-- 
+	   	 if($(window).width() <=' . SCREEN_WIDTH .' )
+	      	document.location = "m.index.php";
+	  	 -->   
+	 	 </script>
+	  	<script type="text/javascript">//script refreshing every 5secs
+	   	 <!--
+	    	var auto_refresh = setInterval( function () { 
+	    	$(' . '#refresh' . ').load("refresh.php").fadeIn("slow");
+	    	},' . REFRESH_TIME . '); // refresh every 10000 milliseconds
+	    	--> 
+  	</script>'
+?>
 </head
 <body>
 <?php
+include 'defines.php';
 if(isset($_POST['submit']))
 {
   
@@ -35,7 +40,7 @@ if(isset($_POST['submit']))
 	{
   	$_POST['amka']=preg_replace("/[^0-9]/", "", $_POST['amka']);
   	   
-  		if( strlen($_POST['amka'])!=11 )
+  		if( strlen($_POST['amka']) != AMKA_LENGTH )
   		{	
     	echo 'Λάθος ΑΜΚΑ, βεβαιωθείτε οτι ο ΑΜΚΑ που έχετε εισάγει είναι σωστός και προσπαθήστε ξανα';
   		}
@@ -44,21 +49,21 @@ if(isset($_POST['submit']))
   		    
   			if(!isset($_SESSION['allowed']))
   			{
-  			++$_SESSION['lastticket'];
-		  	$_SESSION['allowed'][$_POST['amka']]=$_SESSION['lastticket'];
-  			 
-  			 echo 'Ο ΑΜΚΑ σας έχει  καταχωρηθεί στο μητρώο. Παρακαλώ περάστε απο το ταμείο';
+	  			++$_SESSION['lastticket'];
+			  	$_SESSION['allowed'][$_POST['amka']]=$_SESSION['lastticket'];
+	  			 
+  			 	echo 'Ο ΑΜΚΑ σας έχει  καταχωρηθεί στο μητρώο. Παρακαλώ περάστε απο το ταμείο';
   			}
  		 	else if(!isset($_SESSION['allowed'][$_POST['amka']]))
   			{
-  			++$_SESSION['lastticket'];
-  			$_SESSION['allowed'][$_POST['amka']]=$_SESSION['lastticket'];
-  			 
-  			echo 'Ο ΑΜΚΑ σας έχει  καταχωρηθεί στο μητρώο. Παρακαλώ περάστε απο το ταμείο';
+	  			++$_SESSION['lastticket'];
+	  			$_SESSION['allowed'][$_POST['amka']]=$_SESSION['lastticket'];
+	  			 
+	  			echo 'Ο ΑΜΚΑ σας έχει  καταχωρηθεί στο μητρώο. Παρακαλώ περάστε απο το ταμείο';
 			}
 			else
 			{
-			echo 'Ο ΑΜΚΑ σας είναι ήδη καταχωρημένος στο μητρώο!';
+				echo 'Ο ΑΜΚΑ σας είναι ήδη καταχωρημένος στο μητρώο!';
 			}
   		} 
 	}
@@ -98,7 +103,7 @@ if(isset($_POST['submit']))
         <input type="text" size="2" maxlength="2" name="MBirth"  > /
         <input type="text" size="2" maxlength="2" name="YBirth"  >
        -->
-        ΑΜΚΑ: <input type="text" size="11" maxlength="11" name="amka" >
+        ΑΜΚΑ: <input type="text" size = <?php echo AMKA_LENGTH ?> maxlength=<?php echo AMKA_LENGTH ?> name="amka" >
         </br>
         <input type="submit" value="submit" name="submit">
     </form>
