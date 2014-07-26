@@ -96,6 +96,7 @@ class PhpSerial
 
                 #    return true;
                 #}
+                return true;
             } elseif ($this->_os === "osx") {
                 if ($this->_exec("stty -f " . $device) === 0) {
                     $this->_device = $device;
