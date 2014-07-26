@@ -47,7 +47,6 @@
 <body>
 <?php
   include 'defines.php';
-  session_start();
 
   if(isset($_POST['submit'])) {
     if(isset($_POST['amka'])) {
@@ -58,6 +57,7 @@
         echo 'Μη εγκύρος ΑΜΚΑ, βεβαιωθείτε οτι ο ΑΜΚΑ που έχετε εισάγει είναι σωστός και προσπαθήστε ξανα';
         return;
       }
+
       $day= substr($_POST['amka'], 0, 2);
       $month=substr($_POST['amka'], 2, 2);
       $year=substr($_POST['amka'], 4, 2);
@@ -85,7 +85,6 @@
 		<div id="lastserved">
 
 <?php 
-  session_start();
   $_SESSION["serial"]->sendMessage("c\n");
   preg_match('/\d+/', $_SESSION["serial"]->readPort(), $read);
   $lastserved = $read ? $read[0] : 0;
@@ -96,7 +95,6 @@
 		<div id="lastticket" >
 	
 <?php 
-  session_start();
   $_SESSION["serial"]->sendMessage("t\n");
   preg_match('/\d+/', $_SESSION["serial"]->readPort(), $read);
   $lastticket = $read ? $read[0] : 0;
