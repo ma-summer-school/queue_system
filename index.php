@@ -1,5 +1,6 @@
 <?php
   include "PhpSerial.php";
+  include "defines.php";
 
   session_start();
   
@@ -21,7 +22,6 @@
   <link rel="stylesheet" type="text/css" href="style.css">
 
 <?php
-	include 'defines.php';
 	echo '
     <script src="jquery.js"></script>
     <script>
@@ -46,8 +46,6 @@
 
 <body>
 <?php
-  include 'defines.php';
-
   if(isset($_POST['submit'])) {
     if(isset($_POST['amka'])) {
       $_POST['amka']=preg_replace("/[^0-9]/", "", $_POST['amka']);
