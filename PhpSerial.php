@@ -9,9 +9,9 @@ define ("SERIAL_DEVICE_OPENED", 2);
  * THIS PROGRAM COMES WITH ABSOLUTELY NO WARRANTIES !
  * USE IT AT YOUR OWN RISKS !
  *
- * @author RÃ©my Sanchez <remy.sanchez@hyperthese.net>
+ * @author Rémy Sanchez <remy.sanchez@hyperthese.net>
  * @author Rizwan Kassim <rizwank@geekymedia.com>
- * @thanks AurÃ©lien Derouineau for finding how to open serial ports with windows
+ * @thanks Aurélien Derouineau for finding how to open serial ports with windows
  * @thanks Alec Avedisyan for help and testing with reading
  * @thanks Jim Wright for OSX cleanup/fixes.
  * @copyright under GPL 2 licence
@@ -90,12 +90,12 @@ class PhpSerial
                     $device = "/dev/ttyS" . ($matches[1] - 1);
                 }
 
-                if ($this->_exec("stty -F " . $device) === 0) {
+					 /*if (*/$this->_exec("stty -F " . $device)/* === 0) {*/;
                     $this->_device = $device;
                     $this->_dState = SERIAL_DEVICE_SET;
 
-                    return true;
-                }
+                #    return true;
+                #}
             } elseif ($this->_os === "osx") {
                 if ($this->_exec("stty -f " . $device) === 0) {
                     $this->_device = $device;
@@ -455,7 +455,6 @@ class PhpSerial
         if ($this->_dState !== SERIAL_DEVICE_SET) {
             trigger_error("Unable to set flow control mode : the device is " .
                           "either not set or opened", E_USER_WARNING);
-
             return false;
         }
 
@@ -498,10 +497,10 @@ class PhpSerial
         } else {
             trigger_error(
                 "Unable to set flow control : " . $out[1],
-                E_USER_ERROR
+                E_USER_WARNING
             );
 
-            return false;
+#            return false;
         }
     }
 

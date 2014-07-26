@@ -1,18 +1,23 @@
 <html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
 
 <body>
 <?php
 include 'PhpSerial.php';
 
 $serial = new PhpSerial;
-$serial->deviceSet("/dev/ttyUSB0");
+#$serial->deviceSet("/dev/ttyUSB0");
+$serial->deviceSet("/dev/pts/10");
+#$serial->deviceSet("/tmp/eqdummy");
 $serial->confBaudRate(38400);
 $serial->confParity("none");
 $serial->confCharacterLength(8);
 $serial->confStopBits(1);
 $serial->confFlowControl("none");
 
-$serial->deviceOpen('r+');
+$serial->deviceOpen('r+') or die("failed to open device\n");
 
 #$serial->sendMessage("h\n");
 #print "help:".$serial->readPort()."\n";
