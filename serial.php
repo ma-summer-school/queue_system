@@ -9,8 +9,8 @@ include 'PhpSerial.php';
 
 $serial = new PhpSerial;
 #$serial->deviceSet("/dev/ttyUSB0");
-$serial->deviceSet("/dev/pts/10");
-#$serial->deviceSet("/tmp/eqdummy");
+#$serial->deviceSet("/dev/pts/30");
+$serial->deviceSet("/tmp/ttyeqemu");
 $serial->confBaudRate(38400);
 $serial->confParity("none");
 $serial->confCharacterLength(8);
