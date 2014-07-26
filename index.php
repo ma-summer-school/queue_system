@@ -71,6 +71,7 @@
       }
 
       $_SESSION["serial"]->sendMessage("q\n");
+      preg_match('/\d+/', $_SESSION["serial"]->readPort(), $read);
       if ($read)
         $_SESSION['allowed'][$_POST['amka']]=$read[0];
       echo 'Ο ΑΜΚΑ σας έχει  καταχωρηθεί στο μητρώο. Παρακαλώ περάστε απο το ταμείο';
