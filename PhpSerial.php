@@ -90,13 +90,17 @@ class PhpSerial
                     $device = "/dev/ttyS" . ($matches[1] - 1);
                 }
 
-					 /*if (*/$this->_exec("stty -F " . $device)/* === 0) {*/;
+					 /*
+              if ($this->_exec("stty -F " . $device) === 0) {
+           */
                     $this->_device = $device;
                     $this->_dState = SERIAL_DEVICE_SET;
 
-                #    return true;
-                #}
-                return true;
+           /* 
+              return true;
+              }
+           */
+              return true;
             } elseif ($this->_os === "osx") {
                 if ($this->_exec("stty -f " . $device) === 0) {
                     $this->_device = $device;

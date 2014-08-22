@@ -1,115 +1,100 @@
 <?php
-session_start();
-$_SESSION["lastserved"]=isset($_SESSION["lastserved"]) ? $_SESSION["lastserved"] : 0 ;
-$_SESSION["lastticket"]=isset($_SESSION["lastticket"]) ? $_SESSION["lastticket"] : 0 ;
-/*if(isset($_SESSION['allowed']))
-print_r($_SESSION['allowed']);
-*/
+include "defines.php";
+include "serial_functions.php";
 ?>
 
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <link rel="stylesheet" type="text/css" href="mstyle.css">
-<?php
-	include 'defines.php';
-	echo '
-  	<script src="jquery.js"></script>
-  	<script>
-	  	<!-- 
-	   	 if($(window).width() >' . SCREEN_WIDTH .' )
+
+  <script type="text/javascript" src="https://code.jquery.com/jquery-latest.js"></script>
+  <script type="text/javascript">
+  <!--
+  $(document).ready(function() {
+    var auto_refresh = setInterval(
+    function() {
+        $("#queue").load("queueinfo.php?randval=" + Math.floor(Math.random() * 101));
+    }, <?php echo REFRESH_TIME; ?>);
+    });
+  -->
+  </script>
+  <script>
+  <!-- 
+     if($(window).width() > <?php echo SCREEN_WIDTH ?> )
 	      	document.location = "index.php";
-	  	 -->   
-	 	 </script>
-	  	<script type="text/javascript">//script refreshing every 5secs
-	   	 <!--
-	    	var auto_refresh = setInterval( function () { 
-	    	$(' . '#refresh' . ').load("refresh.php").fadeIn("slow");
-	    	},' . REFRESH_TIME . '); // refresh every 10000 milliseconds
-	    	--> 
-  	</script>'
-?>
-</head
+  -->   
+ </script>
+
+
+</head>
+
 <body>
+
+<!-- QUEUE INFO -->
+
+  <div id="queue">
+  </div>
+
+<!-- END QUEUE INFO -->
+
+<!-- NEW CUSTOMER - AMKA AUTH -->
+  <div id="new_cust" name="new_cust">
+    <form name="cust_det" id="cust_det" method="POST" action="">
+      AMKA: <input type="text" name="amka" id="amka" value="" maxlength="11"/>
+      <input type="submit" name="submit" id="submit" value="Καταχώρηση" />
+    </form>
+  </div>
+<!-- END NEW CUSTOMER - AMKA AUTH -->
+
+  <div id="message" name="message">
 <?php
-include 'defines.php';
-if(isset($_POST['submit']))
-{
-  
-	if(isset($_POST['amka']))
-	{
-  	$_POST['amka']=preg_replace("/[^0-9]/", "", $_POST['amka']);
-  	   
-  		if( strlen($_POST['amka']) != AMKA_LENGTH )
-  		{	
-    	echo 'Λάθος ΑΜΚΑ, βεβαιωθείτε οτι ο ΑΜΚΑ που έχετε εισάγει είναι σωστός και προσπαθήστε ξανα';
-  		}
-  		else
-  		{
-  		    
-  			if(!isset($_SESSION['allowed']))
-  			{
-  			++$_SESSION['lastticket'];
-		  	$_SESSION['allowed'][$_POST['amka']]=$_SESSION['lastticket'];
-  			 
-  			 echo 'Ο ΑΜΚΑ σας έχει  καταχωρηθεί στο μητρώο. Παρακαλώ περάστε απο το ταμείο';
-  			}
- 		 	else if(!isset($_SESSION['allowed'][$_POST['amka']]))
-  			{
-  			++$_SESSION['lastticket'];
-  			$_SESSION['allowed'][$_POST['amka']]=$_SESSION['lastticket'];
-  			 
-  			echo 'Ο ΑΜΚΑ σας έχει  καταχωρηθεί στο μητρώο. Παρακαλώ περάστε απο το ταμείο';
-			}
-			else
-			{
-			echo 'Ο ΑΜΚΑ σας είναι ήδη καταχωρημένος στο μητρώο!';
-			}
-  		} 
-	}
+if(isset($_POST['submit'])) {
+  if(isset($_POST['amka'])) {
+    $_POST['amka']=preg_replace("/[^0-9]/", "", $_POST['amka']);
+
+    if(strlen($_POST['amka']) != AMKA_LENGTH)
+    {
+      echo 'Μη εγκύρος ΑΜΚΑ, βεβαιωθείτε οτι ο ΑΜΚΑ που έχετε εισάγει είναι σωστός και προσπαθήστε ξανα';
+      return;
+    }
+
+    $day = substr($_POST['amka'], 0, 2);
+    $month =substr($_POST['amka'], 2, 2);
+    $year =substr($_POST['amka'], 4, 2);
+
+    if(!checkdate($month,$day, $year)) { 
+      echo 'Μη εγκύρος ΑΜΚΑ, βεβαιωθείτε οτι ο ΑΜΚΑ που έχετε εισάγει είναι σωστός και προσπαθήστε ξανα';
+      return;
+    }
+
+    $con = mysqli_connect(HOST, USER, PASS, DB, 9999) or die(mysqli_connect_error());
+    $query = "select * from queue where amka like '$_POST[amka]'";
+    $res = mysqli_query($con, $query);
+
+    if($res->num_rows > 0) {
+      echo 'Ο ΑΜΚΑ που προσπαθείτε να καταχωρήσετε έχει ήδη πάρει σειρά. Παρακαλούμε επικοινωνήστε με τη δημόσια υπηρεσία.';
+      return;
+    }
+
+    queue_init();
+    $num = queue_get_last_ticket() + 1;
+
+    $query = "insert into queue (num, amka, date) values ($num, '$_POST[amka]', NOW());" or die(mysqli_error());
+    $res = mysqli_query($con, $query);
+    if ($res == FALSE)
+    {
+      echo 'Παρακαλούμε προσπαθήστε ξανα';
+      return;
+    }
+    mysqli_close($con);
+    queue_add();
+
+    echo "Έχετε τον αριθμό $num. Παρακαλούμε να προσέλθετε στη δημόσια υπηρεσία με το ΑΜΚΑ σας $_POST[amka] και την ταυτότητά σας.";
+  }
 }
 ?>
-
-<div id="content" >
-	<div id="refresh" >
-		<div id="lastserved">
-
-		<?php 
-    	echo '<h3>Αριθμός που εξυπηρετείται:</h2><h1>'.$_SESSION["lastserved"].'</br></h1>';
-		?>
-
-		</div>
-		<div id="lastticket" >
-	
-		<?php 
-    	echo '<h3>Τελευταίος αριθμός στην ουρά:</h2><h1>'.$_SESSION["lastticket"].'</h1>';
-		?>
-
-		</div>
-	</div>
-	<div id="form" >
-    <form id="get_a_ticket" action="" method="POST">
-      
-       <!-- Επίθετο: <input type="text" name="Surname_Gr" >
-        </br>
-        Όνομα: <input type="text" name="Name_Gr" >
-        </br>
-        Όνομα Πατέρα: <input type="text" name="FName_Gr" >
-        </br>
-        Όνομα Μητέρας: <input type="text" name="MName_Gr" >
-        </br>
-        Ημ/νία Γέννησης: (Ημ/Μη/Χρ)
-        <input type="text" size="2" maxlength="2" name="DBirth"  > /
-        <input type="text" size="2" maxlength="2" name="MBirth"  > /
-        <input type="text" size="2" maxlength="2" name="YBirth"  >
-       -->
-        ΑΜΚΑ: <input type="text" size = <?php echo AMKA_LENGTH ?> maxlength=<?php echo AMKA_LENGTH ?> name="amka" >
-        </br>
-        <input type="submit" value="submit" name="submit">
-    </form>
-	</div>
-</div>
-<footer>
-  <p>About Us: <a href="about.html">click here</a>.</p>
-</footer>
+  </div>
 </body>
+</html>
+

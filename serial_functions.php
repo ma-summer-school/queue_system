@@ -2,10 +2,9 @@
 include "defines.php";
 include "PhpSerial.php";
 
-session_start();
-
-function init()
+function queue_init()
 {
+  session_start();
   if (!isset($_SESSION["start"]))
   {
     $_SESSION["serial"] = new PhpSerial;
@@ -18,7 +17,7 @@ function init()
     $_SESSION["serial"]->deviceOpen('r+') or die("failed to open device\n");
   }
 
-  function shutdown()
+  function queue_shutdown()
   {
     if (isset($_SESSION["serial"]))
       $_SESSION["serial"]->deviceClose() or die("failed to close device\n");
@@ -32,6 +31,8 @@ function init()
 
     echo "<br/>Σειρά: ";
     print_r($read[0]);
+
+    return $read[0];
   }
 
   function queue_read_last_customer_served()
@@ -42,6 +43,17 @@ function init()
 
     echo "<br/>Αριθμός που εξυπηρετείται: ";
     echo $read[0];
+
+    return $read[0];
+  }
+
+  function queue_get_last_ticket()
+  {
+    /* read last cust num */
+    $_SESSION["serial"]->sendMessage("t\n");
+    preg_match('/\d+/', $_SESSION["serial"]->readPort(), $read);
+
+    return $read[0];
   }
 
   function queue_add()
