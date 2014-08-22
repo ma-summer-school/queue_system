@@ -5,4 +5,10 @@
 </head>
 
 <body>
+<div id="clear_queue" name="clear_queue">
+</div>
+
+<div id="remove_customer" name="remove_customer">
+</div>
+
 </body>

@@ -68,16 +68,28 @@ if(isset($_POST['submit'])) {
       return;
     }
 
+    queue_init();
+    $last_cust = queue_get_last_customer();
+
     $con = mysqli_connect(HOST, USER, PASS, DB, 9999) or die(mysqli_connect_error());
     $query = "select * from queue where amka like '$_POST[amka]'";
-    $res = mysqli_query($con, $query);
 
+    $res = mysqli_query($con, $query) or die(mysqli_error());
     if($res->num_rows > 0) {
-      echo 'Ο ΑΜΚΑ που προσπαθείτε να καταχωρήσετε έχει ήδη πάρει σειρά. Παρακαλούμε επικοινωνήστε με τη δημόσια υπηρεσία.';
+      $row = $res->fetch_array(MYSQLI_ASSOC);
+      if($row['num'] > $last_cust) {
+        echo 'Ο ΑΜΚΑ που προσπαθείτε να καταχωρήσετε έχει ήδη πάρει σειρά. Παρακαλούμε επικοινωνήστε με τη δημόσια υπηρεσία.';
+        return;
+      }
+
+      $num = queue_get_last_ticket() + 1;
+      $query = "update queue set num = $num";
+      $res = mysqli_query($con, $query) or die(mysqli_error());
+      queue_add();
+      echo "Η σειρά σας είχε περάσει. Έχετε τώρα τον αριθμό $num. Παρακαλούμε να προσέλθετε στη δημόσια υπηρεσία με το ΑΜΚΑ σας $_POST[amka] και την ταυτότητά σας.";
       return;
     }
 
-    queue_init();
     $num = queue_get_last_ticket() + 1;
 
     $query = "insert into queue (num, amka, date) values ($num, '$_POST[amka]', NOW());" or die(mysqli_error());
@@ -97,4 +109,3 @@ if(isset($_POST['submit'])) {
   </div>
 </body>
 </html>
-

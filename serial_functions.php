@@ -56,6 +56,15 @@ function queue_init()
     return $read[0];
   }
 
+  function queue_get_last_customer()
+  {
+    /* read last cust num */
+    $_SESSION["serial"]->sendMessage("c\n");
+    preg_match('/\d+/', $_SESSION["serial"]->readPort(), $read);
+
+    return $read[0];
+  }
+
   function queue_add()
   {
     $_SESSION["serial"]->sendMessage("q\n");
