@@ -1,20 +1,91 @@
+<?php
+include "defines.php";
+include "serial_functions.php";
+
+queue_init();
+?>
+
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <link rel="stylesheet" type="text/css" href="style.css">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" type="text/css" href="style.css">
+<?php
+include "jsrefresh.php";
+?>
 </head>
 
 <body>
 
-<div id="info" name="info">
-</div>
+<?php
+if(isset($_POST['submit'])) {
+  $sel_radio = $_POST['selections'];
+  if(isset($sel_radio)) {
+    if($sel_radio == 'clearall') {
+      queue_reset();
 
-<div id="next" name="next">
-</div>
+      $con = mysqli_connect(HOST, USER, PASS, DB, 9999) or die(mysqli_connect_error());
+      $query = "delete from queue";
+      $res = mysqli_query($con, $query) or die(mysqli_error());
+    }
+  }
+}
+?>
 
-<div id="clear_queue" name="clear_queue">
-</div>
+  <div id="infotitle">
+    <h3>Σειρά εξυπηρέτησης για την υπηρεσία:</h3>
+  </div>
 
-<div id="show_all" name="show_all">
-</div>
+  <div id="info" name="info">
+  </div>
+
+  <br/>
+
+  <div id="actionstitle" name="actionstitle">
+    <h3>Επιλογές:</h3>
+  </div>
+
+  <div id="actions" name="actions">
+    <form action="" name="selections" id="selections" method="POST">
+      <input type="radio" name="selections" value="showall" /> Εμφάνιση όλων των
+        των ηλεκτρονικών εισιτηρίων <br/>
+      <input type="radio" name="selections" value="clearall" /> Επανεκκίνηση μηχανήματος / Καθαρισμός εγγραφών <br/>
+      <input type="submit" name="submit" id="submit" value="Καταχώρηση"/>
+    </form>
+  </div>
+
+  <div id="dbentries" name="dbentries">
+<?php
+if(isset($_POST['submit'])) {
+  $sel_radio = $_POST['selections'];
+  if(isset($sel_radio)) {
+    if($sel_radio == 'showall') {
+      $con = mysqli_connect(HOST, USER, PASS, DB, 9999) or die(mysqli_connect_error());
+      $query = "select * from queue";
+      $res = mysqli_query($con, $query) or die(mysqli_error());
+      if($res->num_rows > 0) {
+        echo "<table><tbody><tr><th>ID</th><th>AMKA</th><th>Σειρά</th><th>Ημερομηνία</th></tr>";
+        while($row = $res->fetch_array(MYSQLI_ASSOC)) {
+          $id = $row['id'];
+          $amka = $row['amka'];
+          $num = $row['num'];
+          $date = $row['date'];
+          echo "<tr>";
+          echo "<td>$id</td>";
+          echo "<td>$amka</td>";
+          echo "<td>$num</td>";
+          echo "<td>$date</td>";
+          echo "</tr>";
+        }
+      }
+    }
+  }
+}
+?>
+     </tbody>
+     </table>
+  </div>
 </body>

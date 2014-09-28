@@ -16,61 +16,67 @@ function queue_init()
     $_SESSION["serial"]->confFlowControl("none");
     $_SESSION["serial"]->deviceOpen('r+') or die("failed to open device\n");
   }
+}
 
-  function queue_shutdown()
-  {
-    if (isset($_SESSION["serial"]))
-      $_SESSION["serial"]->deviceClose() or die("failed to close device\n");
-  }
+function queue_shutdown()
+{
+  if (isset($_SESSION["serial"]))
+    $_SESSION["serial"]->deviceClose() or die("failed to close device\n");
+}
 
-  function queue_read_last_ticket()
-  {
-    /* read last ticket */
-    $_SESSION["serial"]->sendMessage("t\n");
-    preg_match('/\d+/', $_SESSION["serial"]->readPort(), $read);
+function queue_read_last_ticket()
+{
+  /* read last ticket */
+  $_SESSION["serial"]->sendMessage("t\n");
+  preg_match('/\d+/', $_SESSION["serial"]->readPort(), $read);
 
-    echo "<br/>Σειρά: ";
-    print_r($read[0]);
+  echo "<br/>Τελευταίο νούμερο που έχει εκδοθεί: ";
+  print_r($read[0]);
 
-    return $read[0];
-  }
+  return $read[0];
+}
 
-  function queue_read_last_customer_served()
-  {
-    /* read last cust num */
-    $_SESSION["serial"]->sendMessage("c\n");
-    preg_match('/\d+/', $_SESSION["serial"]->readPort(), $read);
+function queue_read_last_customer_served()
+{
+  /* read last cust num */
+  $_SESSION["serial"]->sendMessage("c\n");
+  preg_match('/\d+/', $_SESSION["serial"]->readPort(), $read);
 
-    echo "<br/>Αριθμός που εξυπηρετείται: ";
-    echo $read[0];
+  echo "<br/>Αριθμός σειράς του ατόμου που εξυπηρετείται: ";
+  echo $read[0];
 
-    return $read[0];
-  }
+  return $read[0];
+}
 
-  function queue_get_last_ticket()
-  {
-    /* read last cust num */
-    $_SESSION["serial"]->sendMessage("t\n");
-    preg_match('/\d+/', $_SESSION["serial"]->readPort(), $read);
+function queue_get_last_ticket()
+{
+  /* read last cust num */
+  $_SESSION["serial"]->sendMessage("t\n");
+  preg_match('/\d+/', $_SESSION["serial"]->readPort(), $read);
 
-    return $read[0];
-  }
+  return $read[0];
+}
 
-  function queue_get_last_customer()
-  {
-    /* read last cust num */
-    $_SESSION["serial"]->sendMessage("c\n");
-    preg_match('/\d+/', $_SESSION["serial"]->readPort(), $read);
+function queue_get_last_customer()
+{
+  /* read last cust num */
+  $_SESSION["serial"]->sendMessage("c\n");
+  preg_match('/\d+/', $_SESSION["serial"]->readPort(), $read);
 
-    return $read[0];
-  }
+  return $read[0];
+}
 
-  function queue_add()
-  {
-    $_SESSION["serial"]->sendMessage("q\n");
-    preg_match('/\d+/', $_SESSION["serial"]->readPort(), $read);
-  }
+function queue_add()
+{
+  $_SESSION["serial"]->sendMessage("q\n");
+  preg_match('/\d+/', $_SESSION["serial"]->readPort(), $read);
 
+  return $read[0];
+}
+
+function queue_reset()
+{
+  $_SESSION["serial"]->sendMessage("r\n");
 }
 
 ?>

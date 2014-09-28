@@ -8,17 +8,10 @@ include "serial_functions.php";
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <link rel="stylesheet" type="text/css" href="mstyle.css">
 
-  <script type="text/javascript" src="https://code.jquery.com/jquery-latest.js"></script>
-  <script type="text/javascript">
-  <!--
-  $(document).ready(function() {
-    var auto_refresh = setInterval(
-    function() {
-        $("#queue").load("queueinfo.php?randval=" + Math.floor(Math.random() * 101));
-    }, <?php echo REFRESH_TIME; ?>);
-    });
-  -->
-  </script>
+<?php
+include "jsrefresh.php";
+?>
+
   <script>
   <!-- 
      if($(window).width() > <?php echo SCREEN_WIDTH ?> )
