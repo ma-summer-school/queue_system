@@ -1,5 +1,5 @@
 html {
-font-family: Arial Serif Helvetica;
+font-family: Ubuntu, Arial, Sans;
 }
 
 input {
@@ -8,5 +8,37 @@ border: none;
 }
 
 body {
-background-color: #f1f2f7
+background-color: #cddeff;
+}
+
+h3 {
+font-family: Ubuntu, Helvetica,Sans;
+font-size: large;
+}
+
+div {
+border-radius: 0.3em;
+}
+
+#submit {
+border-radius: 0.3em;
+background-color: #001;
+color:#666;
+}
+
+th {
+text-align:left;
+padding: 0em 2em 1em 0em;
+}
+
+td {
+text-align:left;
+padding: 0em 2em 0em 0em;
+}
+
+a {
+font-family: Sans;
+font-size: 0.8em;
+font-style: italic;
+color: #005;
 }

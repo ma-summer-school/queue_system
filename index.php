@@ -25,12 +25,20 @@ include "jsrefresh.php";
 <body>
 
 <!-- QUEUE INFO -->
+  <div id="intro">
+    <h3>Γενικές Πληροφορίες</h3>
+  </div>
 
-  <div id="queue">
+  <div id="info">
   </div>
 
 <!-- END QUEUE INFO -->
 
+  <div id="new">
+    <br/>
+    <h3>Νέα έκδοση:</h3>
+    Παρακαλούμε πληκτρολογείστε το ΑΜΚΑ σας:
+  </div>
 <!-- NEW CUSTOMER - AMKA AUTH -->
   <div id="new_cust" name="new_cust">
     <form name="cust_det" id="cust_det" method="POST" action="">
@@ -99,6 +107,10 @@ if(isset($_POST['submit'])) {
   }
 }
 ?>
+  </div>
+  
+  <div id="about" name="about" value="about">
+    <a href="about.html">Πληροφορίες</a>
   </div>
 </body>
 </html>

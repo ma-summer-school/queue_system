@@ -30,7 +30,7 @@ function queue_read_last_ticket()
   $_SESSION["serial"]->sendMessage("t\n");
   preg_match('/\d+/', $_SESSION["serial"]->readPort(), $read);
 
-  echo "<br/>Τελευταίο νούμερο που έχει εκδοθεί: ";
+  echo "<br/>Τελευταίο νούμερο που εκδόθηκε: ";
   print_r($read[0]);
 
   return $read[0];
@@ -42,7 +42,7 @@ function queue_read_last_customer_served()
   $_SESSION["serial"]->sendMessage("c\n");
   preg_match('/\d+/', $_SESSION["serial"]->readPort(), $read);
 
-  echo "<br/>Αριθμός σειράς του ατόμου που εξυπηρετείται: ";
+  echo "<br/>Αριθμός που εξυπηρετείται: ";
   echo $read[0];
 
   return $read[0];

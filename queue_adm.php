@@ -36,7 +36,7 @@ if(isset($_POST['submit'])) {
 ?>
 
   <div id="infotitle">
-    <h3>Σειρά εξυπηρέτησης για την υπηρεσία:</h3>
+    <h3>Γενικές Πληροφορίες:</h3>
   </div>
 
   <div id="info" name="info">
@@ -50,9 +50,9 @@ if(isset($_POST['submit'])) {
 
   <div id="actions" name="actions">
     <form action="" name="selections" id="selections" method="POST">
-      <input type="radio" name="selections" value="showall" /> Εμφάνιση όλων των
+      <input type="radio" class="radio" name="selections" value="showall" /> Εμφάνιση όλων των
         των ηλεκτρονικών εισιτηρίων <br/>
-      <input type="radio" name="selections" value="clearall" /> Επανεκκίνηση μηχανήματος / Καθαρισμός εγγραφών <br/>
+      <input type="radio" name="selections" class="radio" value="clearall" /> Επανεκκίνηση μηχανήματος / Καθαρισμός εγγραφών <br/>
       <input type="submit" name="submit" id="submit" value="Καταχώρηση"/>
     </form>
   </div>
@@ -87,5 +87,8 @@ if(isset($_POST['submit'])) {
 ?>
      </tbody>
      </table>
+  </div>
+  <div id="about" name="about" value="about">
+    <a href="about.html">Πληροφορίες</a>
   </div>
 </body>

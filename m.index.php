@@ -26,7 +26,7 @@ include "jsrefresh.php";
 
 <!-- QUEUE INFO -->
 
-  <div id="queue">
+  <div id="info">
   </div>
 
 <!-- END QUEUE INFO -->
@@ -35,6 +35,7 @@ include "jsrefresh.php";
   <div id="new_cust" name="new_cust">
     <form name="cust_det" id="cust_det" method="POST" action="">
       AMKA: <input type="text" name="amka" id="amka" value="" maxlength="11"/>
+<br/>
       <input type="submit" name="submit" id="submit" value="Καταχώρηση" />
     </form>
   </div>
@@ -99,6 +100,10 @@ if(isset($_POST['submit'])) {
   }
 }
 ?>
+  </div>
+
+  <div id="about" name="about" value="about">
+    <a href="about.html">Πληροφορίες</a>
   </div>
 </body>
 </html>
