@@ -84,7 +84,7 @@ if(isset($_POST['submit'])) {
       }
 
       $num = queue_get_last_ticket() + 1;
-      $query = "update queue set num = $num";
+      $query = "update queue set num = $num where amka = $_POST[amka]";
       $res = mysqli_query($con, $query) or die(mysqli_error());
       queue_add();
       echo "Η σειρά σας είχε περάσει. Έχετε τώρα τον αριθμό $num. Παρακαλούμε να προσέλθετε στη δημόσια υπηρεσία με το ΑΜΚΑ σας $_POST[amka] και την ταυτότητά σας.";
