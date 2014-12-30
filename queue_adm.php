@@ -15,12 +15,14 @@ queue_init();
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <link rel="stylesheet" type="text/css" href="style.css">
   <script type="text/javascript" src="jquery.js"></script>
+  
 <?php
 include "jsrefresh.php";
 ?>
 </head>
 
 <body>
+    
 
 <?php
 if(isset($_POST['submit'])) {
@@ -52,36 +54,39 @@ if(isset($_POST['submit'])) {
 
   <div id="actions" name="actions">
     <form action="" name="selections" id="selections" method="POST">
-      <input type="radio" class="radio" id="selShow" name="selections" value="showall" /> Εμφάνιση όλων των
+      <input type="radio" class="radio" name="selections" value="showall" /> Εμφάνιση όλων των
         των ηλεκτρονικών εισιτηρίων <br/>
       <input type="radio" name="selections" class="radio" value="clearall" /> Επανεκκίνηση μηχανήματος / Καθαρισμός εγγραφών <br/>
 
       <input type="hidden" name="page" id="page" value=0 />
-      <input type="submit" name="submit" id="submit" value="Καταχώρηση"/>
+      <input type="submit" name="btnsubmit" id="btnsubmit" value="Καταχώρηση"/>
       <br></br>
-      <br</br>
-      <input type="submit" class="buttons" name="previous" id="previous" value="<"/>
-      <input type="submit" class="buttons" name="next" id="next" value=">"/>
+      <br></br>
+      <input type="button" id="btnPrevious" class="buttons" onclick="previous();" value="<">
+      <input type="button" id="btnNext" class="buttons" onclick="next();" value=">">
+      
     </form>
   </div>
   <script type="text/javascript">
-   if (document.getElementById('page').value == 0)
+      
+   $('#btnPrevious').hide();
+   $('#btnNext').hide();
+   function next()//when you press the next button (submits form)
    {
-    ///$('#next').hide();
-    ///$('#previous').hide();
-   }
-  $('#next').click(function () {
-  	document.getElementById('page').value = 1;
-        $('input[name="selections"][value="showall"]').prop('checked', true);
-  });
-  $('#previous').click(function () {
-  	document.getElementById('page').value = -1;
-        $('input[name="selections"][value="showall"]').prop('checked', true);
-  });
-  
-
-  
+       document.getElementById('selections').reset();
+       document.getElementById('page').value = 1;
+       $('input[name="selections"][value="showall"]').prop('checked', true);
+       document.getElementById('selections').submit();     
+   };
+   function previous()//when you press the previous button (submits form)
+   {
+       document.getElementById('selections').reset();
+       document.getElementById('page').value = -1;
+       $('input[name="selections"][value="showall"]').prop('checked', true);
+       document.getElementById('selections').submit();
+   };
   </script>
+  
 
   <div id="dbentries" name="dbentries">
 <?php
@@ -89,7 +94,22 @@ function getFromDB($page){
       	$con = mysqli_connect(HOST, USER, PASS, DB, 9999) or die(mysqli_connect_error());
       	$numPage=$page;
       	$offset=$numPage * 5;
+        $countQuery= "select * from queue";
+        $resultC= mysqli_query($con,$countQuery) or die(mysqli_error());
+        $count=$resultC->num_rows;
+        if ($offset>= $count)
+        {
+            $numPage=0;
+            $offset=$numPage* 5;
+        }
+        if ($offset< 0)
+        {
+            $numPage= $count/ 5- 1 ;
+            $offset=$numPage* 5;
+            
+        }
       	$query = "select * from queue LIMIT 5 OFFSET $offset";
+        
       	$res = mysqli_query($con, $query) or die(mysqli_error());
       	if($res->num_rows > 0) {
         		echo "<table><tbody><tr><th>ID</th><th>AMKA</th><th>Σειρά</th><th>Ημερομηνία</th></tr>";
@@ -108,15 +128,13 @@ function getFromDB($page){
       		}
     		}
     		
-
-if(isset($_POST['submit']) || isset($_POST['next']) || isset($_POST['previous']) ){
   $sel_radio = $_POST['selections'];
   if(isset($sel_radio)) {
     if($sel_radio == 'showall') {
     	if($_POST['page'] == 0) {
-    		#echo $_POST['page'];
             $page= 0;
             $_SESSION["previous"]= $page;
+            $_SESSION["showBtn"]=1;
             getFromDB($page);
     }
     	elseif($_POST['page'] == 1) {
@@ -124,7 +142,7 @@ if(isset($_POST['submit']) || isset($_POST['next']) || isset($_POST['previous'])
             $_SESSION["previous"]=$page;
             getFromDB($page);
     }
-        elseif ($_POST['page']== -1) {
+        elseif ($_POST['page'] == -1) {
             $page= $_SESSION["previous"]-1;
             $_SESSION["previous"]=$page;
             getFromDB($page);
@@ -133,8 +151,14 @@ if(isset($_POST['submit']) || isset($_POST['next']) || isset($_POST['previous'])
     	
     }
   }
+  if ($_SESSION["showBtn"]==1)
+  {
+  echo "<script type=\"text/javascript\"> 
+      $('#btnNext').show();
+      $('#btnPrevious').show();
+       </script>";
   }
-
+  
 
 
 ?>
