@@ -48,6 +48,17 @@ function queue_read_last_customer_served()
   return $read[0];
 }
 
+function queue_read_average_waiting_time()
+{
+	$_SESSION["serial"]->sendMessage("a\n");
+	preg_match('/\d+/', $_SESSION["serial"]->readPort(), $read);
+	
+	echo "<br/> Μέσος χρόνος αναμονής: ";
+	echo $read[0];
+	
+	return $read[0];
+}
+
 function queue_get_last_ticket()
 {
   /* read last cust num */
@@ -64,6 +75,16 @@ function queue_get_last_customer()
   preg_match('/\d+/', $_SESSION["serial"]->readPort(), $read);
 
   return $read[0];
+}
+
+function queue_get_average_waiting_time()
+{
+	/* get the average waiting time for a customer to be served */
+	$_SESSION["serial"]->sendMessage("a\n");
+	
+	preg_match('/\d+/', $_SESSION["serial"]->readPort(), $read);
+
+	return $read[0];
 }
 
 function queue_add()
